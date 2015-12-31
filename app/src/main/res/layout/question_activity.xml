@@ -7,12 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.segura.alberto.p4_dss_luisalbertoseguradelgado.MainActivity">
+    tools:context="com.segura.alberto.p4_dss_luisalbertoseguradelgado.QuestionActivity">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jugar"
+        android:text="O1"
         android:id="@+id/a1Btn"
         android:layout_marginTop="102dp"
         android:layout_below="@+id/questionTxt"
@@ -22,14 +22,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="FutbolTrivial"
+        android:text="Pregunta"
         android:id="@+id/questionTxt"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Estadísticas"
+        android:text="O2"
         android:id="@+id/a2Btn"
         android:layout_below="@+id/a1Btn"
         android:layout_alignRight="@+id/questionTxt"
@@ -39,10 +39,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Más Juegos"
+        android:text="O3"
         android:id="@+id/a3Btn"
         android:layout_marginTop="29dp"
         android:layout_below="@+id/a2Btn"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O4"
+        android:id="@+id/a4Btn"
+        android:layout_marginTop="38dp"
+        android:layout_below="@+id/a3Btn"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

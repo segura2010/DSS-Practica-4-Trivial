@@ -1,9 +1,12 @@
 package com.segura.alberto.p4_dss_luisalbertoseguradelgado;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -11,6 +14,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set buttons listeners
+        setListeners();
     }
 
     @Override
@@ -34,4 +40,20 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    // Set listeners
+    private void setListeners()
+    {
+        Button play = (Button)(findViewById(R.id.a1Btn));
+        // Set onclick listener for button
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), QuestionActivity.class);
+
+                startActivity(i);
+            }
+        });
+    }
+
 }
