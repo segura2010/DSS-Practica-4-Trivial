@@ -13,7 +13,9 @@ public class Question {
 
     int correctAnswer;
 
-    Question(String q, String a1, String a2, String a3, String a4, int c)
+    QuestionType type;
+
+    Question(String q, String a1, String a2, String a3, String a4, int c, QuestionType t)
     {
         question = q;
 
@@ -24,6 +26,8 @@ public class Question {
         answers.add(a4);
 
         correctAnswer = c;
+
+        type = t;
     }
 
     int getCorrectAnswer()
@@ -41,5 +45,9 @@ public class Question {
 
     public String getAnswer(int i) {
         return answers.get(i);
+    }
+
+    public QuestionType getType() {
+        return type;
     }
 }
