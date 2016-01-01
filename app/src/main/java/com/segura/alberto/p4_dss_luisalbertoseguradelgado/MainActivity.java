@@ -10,6 +10,8 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
+    DBHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +19,15 @@ public class MainActivity extends ActionBarActivity {
 
         // Set buttons listeners
         setListeners();
+
+        db = new DBHelper(getApplicationContext());
+        db.setUpTables();
+
+        QuestionResource.INSTANCE.setDB(db);
+        QuestionResource.INSTANCE.getNewQuestions();
+
+        UserResource.INSTANCE.setDB(db);
+        UserResource.INSTANCE.loadUser();
     }
 
     @Override
@@ -44,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
     // Set listeners
     private void setListeners()
     {
-        Button play = (Button)(findViewById(R.id.a1Btn));
+        Button play = (Button)(findViewById(R.id.playBtn));
         // Set onclick listener for button
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +63,27 @@ public class MainActivity extends ActionBarActivity {
                 Intent i = new Intent(v.getContext(), QuestionActivity.class);
 
                 startActivity(i);
+            }
+        });
+
+        Button statsBtn = (Button)(findViewById(R.id.statsBtn));
+        // Set onclick listener for button
+        statsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), StatsActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        Button deleteBtn = (Button)(findViewById(R.id.deleteBD));
+        // Set onclick listener for button
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteTables();
+                db.setUpTables();
             }
         });
     }

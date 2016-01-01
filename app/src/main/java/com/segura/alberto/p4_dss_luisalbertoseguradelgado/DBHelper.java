@@ -26,17 +26,41 @@ public class DBHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         // Create question table if not exists
-        db.execSQL("CREATE TABLE questions IF NOT EXISTS (id integer primary key, question text, a1 text, a2 text, a3 text, a4 text, correct integer, type integer)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS questions (id integer primary key, question text, a1 text, a2 text, a3 text, a4 text, correct integer, type integer)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (id integer primary key, correctQuestions integer, failedQuestions integer, timesPlayed integer)");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+
+
+    public void setUpTables()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS questions (id integer primary key, question text, a1 text, a2 text, a3 text, a4 text, correct integer, type integer)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (id integer primary key, correctQuestions integer, failedQuestions integer, timesPlayed integer)");
 
         if( getQuestionsNumber() <= 0 )
         {
             fillQuestions();
         }
 
+        if( getUsersNumber() <= 0 )
+        {
+            addUser( new User(0, 0, 0, 0) );
+        }
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void deleteTables()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Create question table if not exists
+        db.execSQL("DROP TABLE IF EXISTS questions");
+
+        db.execSQL("DROP TABLE IF EXISTS users");
     }
 
 
@@ -47,11 +71,18 @@ public class DBHelper extends SQLiteOpenHelper{
         return numRows;
     }
 
+    public int getUsersNumber()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, "users");
+        return numRows;
+    }
+
     private void fillQuestions()
     {   // Add questions to DB
         addQuestion( new Question( "¿Cuál es el país de origen del fútbol?", "España", "Inglaterra", "China", "Italia", 2, QuestionType.TEXT ) );
         addQuestion( new Question( "¿Qué otro deporte usaba en sus inicios una pelota de fútbol?", "Tenis", "Balonmano", "Waterpolo", "Baloncesto", 3, QuestionType.TEXT ) );
-        addQuestion( new Question( "¿Quién inventó la expresión 'jogo bonito'?", "Maradona", "Pelé", "Ronaldinho", "Ronaldo", 3, QuestionType.TEXT ) );
+        addQuestion( new Question( "¿Quién inventó la expresión 'jogo bonito'?", "Maradona", "Pelé", "Ronaldinho", "Ronaldo", 1, QuestionType.TEXT ) );
         addQuestion( new Question( "¿Dónde se fabrican la mayoría de balones de fútbol?", "China", "Pakistan", "India", "Tailandia", 1, QuestionType.TEXT ) );
         addQuestion( new Question( "¿Cuántas veces desapareció el trofeo del Mundial?", "Dos", "Una", "Cuatro", "Ninguna", 0, QuestionType.TEXT ) );
         addQuestion( new Question( "¿Qué equipo no encajó ni un solo gol en toda la temporada?", "AC Milan (Serie A)", "Liverpool (Premier League)", "Athletic de Bilbao (Liga Española)", "Perugia (Serie A)", 3, QuestionType.TEXT ) );
@@ -64,13 +95,13 @@ public class DBHelper extends SQLiteOpenHelper{
         ContentValues contentValues = new ContentValues();
         contentValues.put("question", q.getQuestion());
         contentValues.put("a1", q.getAnswer(0));
-        contentValues.put("a2", q.getAnswer(0));
-        contentValues.put("a3", q.getAnswer(0));
-        contentValues.put("a4", q.getAnswer(0));
+        contentValues.put("a2", q.getAnswer(1));
+        contentValues.put("a3", q.getAnswer(2));
+        contentValues.put("a4", q.getAnswer(3));
         contentValues.put("correct", q.getCorrectAnswer());
         contentValues.put("type", q.getType().ordinal());
 
-        db.insert("contacts", null, contentValues);
+        db.insert("questions", null, contentValues);
     }
 
     public ArrayList<Question> getAllQuestions()
@@ -88,6 +119,47 @@ public class DBHelper extends SQLiteOpenHelper{
             res.moveToNext();
         }
         return questions;
+    }
+
+
+    public void addUser(User u)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("id", u.getId());
+        contentValues.put("correctQuestions", u.getCorrectQuestions());
+        contentValues.put("failedQuestions", u.getFailedQuestions());
+        contentValues.put("timesPlayed", u.getTimesPlayed());
+
+
+        db.insert("users", null, contentValues);
+    }
+
+    public void updateUser(User u)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("correctQuestions", u.getCorrectQuestions());
+        contentValues.put("failedQuestions", u.getFailedQuestions());
+        contentValues.put("timesPlayed", u.getTimesPlayed());
+
+        db.update("users", contentValues, "id = ? ", new String[]{Integer.toString(u.getId())});
+    }
+
+    public User getUser()
+    {
+        User u = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from users", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false)
+        {
+            u = new User( res.getInt(0), res.getInt(1), res.getInt(2), res.getInt(3) );
+            res.moveToNext();
+        }
+        return u;
     }
 
 }
