@@ -135,8 +135,6 @@ public class QuestionActivity extends ActionBarActivity {
 
     private void nextQuestion()
     {
-        AudioController.INSTANCE.stop();
-
         Question q = QuestionResource.INSTANCE.getOneQuestion();
 
         if( q == null )
@@ -157,20 +155,79 @@ public class QuestionActivity extends ActionBarActivity {
     {
         Question q = QuestionResource.INSTANCE.getActualQuestion();
 
-        if( q.getCorrectAnswer() == i )
-        {   // it's correct!
-            Toast.makeText(getApplicationContext(), "Correct!!", Toast.LENGTH_SHORT).show();
-            UserResource.INSTANCE.getUser().addCorrect();
-            corrects++;
+        String correct = "";
+        if( q.getType() == QuestionType.IMAGE )
+        {
+            correct = "Imagen " + Integer.toString(q.getCorrectAnswer()+1);
         }
         else
         {
-            Toast.makeText(getApplicationContext(), "Incorrect!!", Toast.LENGTH_SHORT).show();
-            UserResource.INSTANCE.getUser().addFail();
-            fails++;
+            correct = q.getAnswer(q.getCorrectAnswer());
         }
 
-        nextQuestion();
+        if( q.getCorrectAnswer() == i )
+        {   // it's correct!
+            AudioController.INSTANCE.playSong(this, R.raw.grito);
+            Toast.makeText(getApplicationContext(), "Correct!!", Toast.LENGTH_SHORT).show();
+            UserResource.INSTANCE.getUser().addCorrect();
+            corrects++;
+            showCorrectQuestionAlert(correct);
+        }
+        else
+        {
+            AudioController.INSTANCE.playSong(this, R.raw.pitido);
+            UserResource.INSTANCE.getUser().addFail();
+            fails++;
+            showIncorrectQuestionAlert(correct);
+        }
+    }
+
+    public void showIncorrectQuestionAlert(String correctAnswer)
+    {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Has fallado")
+                .setMessage("La respuesta correcta era " + correctAnswer + " :( \n ¿Quieres seguir jugando o volver al menú?")
+                .setPositiveButton("Seguir Jugando", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        nextQuestion();
+                    }
+
+                })
+                .setNegativeButton("Volver al Menú", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        QuestionResource.INSTANCE.getNewQuestions();
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    public void showCorrectQuestionAlert(String correctAnswer)
+    {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Correcto!!")
+                .setMessage("La respuesta correcta era " + correctAnswer + " :D \n ¿Quieres seguir jugando o volver al menú?")
+                .setPositiveButton("Seguir Jugando", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        nextQuestion();
+                    }
+
+                })
+                .setNegativeButton("Volver al Menú", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        QuestionResource.INSTANCE.getNewQuestions();
+                        finish();
+                    }
+                })
+                .show();
     }
 
     // Disable back button

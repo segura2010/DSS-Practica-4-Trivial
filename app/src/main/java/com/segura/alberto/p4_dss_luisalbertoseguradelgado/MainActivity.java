@@ -77,6 +77,17 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        Button moreGamesBtn = (Button)(findViewById(R.id.moreGamesBtn));
+        // Set onclick listener for button
+        moreGamesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), MoreGamesActivity.class);
+
+                startActivity(i);
+            }
+        });
+
         Button deleteBtn = (Button)(findViewById(R.id.deleteBD));
         // Set onclick listener for button
         deleteBtn.setOnClickListener(new View.OnClickListener() {
