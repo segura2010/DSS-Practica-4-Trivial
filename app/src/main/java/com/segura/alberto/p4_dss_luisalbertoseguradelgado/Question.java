@@ -15,7 +15,9 @@ public class Question {
 
     QuestionType type;
 
-    Question(String q, String a1, String a2, String a3, String a4, int c, QuestionType t)
+    int audio;
+
+    Question(String q, String a1, String a2, String a3, String a4, int c, QuestionType t, int au)
     {
         question = q;
 
@@ -28,6 +30,8 @@ public class Question {
         correctAnswer = c;
 
         type = t;
+
+        audio = au;
     }
 
     int getCorrectAnswer()
@@ -49,5 +53,9 @@ public class Question {
 
     public QuestionType getType() {
         return type;
+    }
+
+    public int getAudio() {
+        return audio;
     }
 }

@@ -5,7 +5,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,62 +25,28 @@ public class QuestionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.question_activity);
 
-        // Prepare event listeners for answer question
-        Button a1Btn = (Button)(findViewById(R.id.a1Btn));
-        Button a2Btn = (Button)(findViewById(R.id.a2Btn));
-        Button a3Btn = (Button)(findViewById(R.id.a3Btn));
-        Button a4Btn = (Button)(findViewById(R.id.a4Btn));
-
         Button exitBtn = (Button)(findViewById(R.id.exitBtn));
-
-        a1Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseQuestion(0);
-            }
-        });
-
-        a2Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseQuestion(1);
-            }
-        });
-
-        a3Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseQuestion(2);
-            }
-        });
-
-        a4Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseQuestion(3);
-            }
-        });
 
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Ask if user really wants to leave
                 new AlertDialog.Builder(v.getContext())
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Salir")
-                .setMessage("¿Realmente quieres salir?")
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Salir")
+                        .setMessage("¿Realmente quieres salir?")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                        QuestionResource.INSTANCE.getNewQuestions();
-                        finish();
-                    }
+                                QuestionResource.INSTANCE.getNewQuestions();
+                                finish();
+                            }
 
-                })
-                .setNegativeButton("No", null)
-                .show();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
 
@@ -94,18 +63,39 @@ public class QuestionActivity extends ActionBarActivity {
         // Get GUI elements
         TextView questionText = (TextView)(findViewById(R.id.questionTxt));
 
-        Button a1Btn = (Button)(findViewById(R.id.a1Btn));
-        Button a2Btn = (Button)(findViewById(R.id.a2Btn));
-        Button a3Btn = (Button)(findViewById(R.id.a3Btn));
-        Button a4Btn = (Button)(findViewById(R.id.a4Btn));
-
         // Put question on GUI elements
         questionText.setText(q.getQuestion());
 
-        a1Btn.setText(q.getAnswer(0));
-        a2Btn.setText(q.getAnswer(1));
-        a3Btn.setText(q.getAnswer(2));
-        a4Btn.setText(q.getAnswer(3));
+        ListView list = (ListView)(findViewById(R.id.answersListView));
+
+        if( q.type == QuestionType.TEXT )
+        {
+            list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, q.getAnswers()));
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    chooseQuestion(position);
+                }
+            });
+        }
+        else if( q.type == QuestionType.IMAGE )
+        {
+            String[] text = { "Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4" };
+
+            Integer[] images = {0,0,0,0};
+            for(int i=0;i<q.getAnswers().size();i++)
+            {
+                images[i] = Integer.parseInt( q.getAnswer(i) );
+            }
+
+            list.setAdapter(new ImageList(this, text, images));
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    chooseQuestion(position);
+                }
+            });
+        }
     }
 
     private void nextQuestion()
