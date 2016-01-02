@@ -2,6 +2,7 @@ package com.segura.alberto.p4_dss_luisalbertoseguradelgado;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -15,7 +16,21 @@ public class MoreGamesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.moregames_activity);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         loadWeb();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return true;
+        }
     }
 
     private void loadWeb()

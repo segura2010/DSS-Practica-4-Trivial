@@ -2,6 +2,7 @@ package com.segura.alberto.p4_dss_luisalbertoseguradelgado;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -143,6 +144,11 @@ public class QuestionActivity extends ActionBarActivity {
 
             UserResource.INSTANCE.getUser().addGame();
             UserResource.INSTANCE.saveUser();
+
+            Intent i = new Intent(this, GameResultsActivity.class);
+            i.putExtra("corrects", corrects);
+            i.putExtra("fails", fails);
+            startActivity(i);
 
             finish();
             return;

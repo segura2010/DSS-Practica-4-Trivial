@@ -2,5 +2,6 @@
     <string name="app_name">FutbolTrivial</string>
     <string name="stats_title">Estadísticas</string>
     <string name="moregames_title">Más Juegos</string>
+    <string name="endgame_title">Partida Finalizada</string>
     <string name="action_settings">Settings</string>
 </resources>

@@ -48,7 +48,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar BD"
+        android:text="Eliminar Datos"
         android:id="@+id/deleteBD"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
