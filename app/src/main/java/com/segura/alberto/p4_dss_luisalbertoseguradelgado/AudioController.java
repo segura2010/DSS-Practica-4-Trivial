@@ -22,7 +22,6 @@ public enum AudioController {
             if( player.isPlaying() )
             {
                 player.stop();
-                player.release();
             }
         }
 
@@ -35,8 +34,7 @@ public enum AudioController {
         {
             if( player.isPlaying() )
             {
-                player.stop();
-                player.release();
+                player.pause();
             }
         }
     }

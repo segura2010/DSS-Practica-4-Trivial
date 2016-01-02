@@ -93,6 +93,10 @@ public class DBHelper extends SQLiteOpenHelper{
         // IMAGE Questions
         addQuestion( new Question( "¿Quien es Messi?", Integer.toString(R.drawable.arbeloa), Integer.toString(R.drawable.messi), Integer.toString(R.drawable.pique), Integer.toString(R.drawable.cr), 1, QuestionType.IMAGE, 0 ) );
         addQuestion( new Question( "¿Quien es Cristiano Ronaldo?", Integer.toString(R.drawable.pique), Integer.toString(R.drawable.arbeloa), Integer.toString(R.drawable.cr), Integer.toString(R.drawable.messi), 2, QuestionType.IMAGE, 0 ) );
+
+        // AUDIO Questions
+        addQuestion( new Question( "¿Quien emite este sonido?", "Maradona", "Messi", "Ronaldinho", "Cristiano Ronaldo", 3, QuestionType.AUDIO, R.raw.grito ) );
+        addQuestion( new Question( "¿Este himno fué compuesto después de que el Real Madrid ganase una de sus Copas de Europa, después de cual?", "Sexta", "Primera", "Novena", "Decima", 3, QuestionType.AUDIO, R.raw.himno_decima ) );
     }
 
     private void addQuestion(Question q)

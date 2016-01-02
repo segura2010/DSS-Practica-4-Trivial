@@ -135,6 +135,8 @@ public class QuestionActivity extends ActionBarActivity {
 
     private void nextQuestion()
     {
+        AudioController.INSTANCE.stop();
+
         Question q = QuestionResource.INSTANCE.getOneQuestion();
 
         if( q == null )
