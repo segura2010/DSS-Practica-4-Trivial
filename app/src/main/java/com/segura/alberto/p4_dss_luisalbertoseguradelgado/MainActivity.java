@@ -83,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 db.deleteTables();
                                 db.setUpTables();
+                                UserResource.INSTANCE.loadUser();
                             }
 
                         })

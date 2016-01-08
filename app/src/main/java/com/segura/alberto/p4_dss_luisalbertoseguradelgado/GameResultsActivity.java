@@ -5,12 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by alberto on 2/1/16.
@@ -51,6 +45,18 @@ public class GameResultsActivity extends ActionBarActivity {
 
         User u = UserResource.INSTANCE.getUser();
 
+        String[] titles = { "Aciertos de esta partida", "Fallos de esta partida", "Aciertos Totales", "Fallos Totales", "Partidas Completas Jugadas" };
+        String[] descs = { Integer.toString(corrects), Integer.toString(fails), Integer.toString(u.getCorrectQuestions()), Integer.toString(u.getFailedQuestions()), Integer.toString(u.getTimesPlayed()) };
+
+        Integer[] images = { R.drawable.goal_icon, R.drawable.fail_icon, R.drawable.correct_icon, R.drawable.fails_icon, R.drawable.total_played_times_icon };
+
+        list.setAdapter(new MyImageListAdapter(this, titles, descs, images));
+
+        /*
+        ListView list = (ListView)(findViewById(R.id.endGameListView));
+
+        User u = UserResource.INSTANCE.getUser();
+
         String[] fromMapKey = new String[] {"text1", "text2"};
         int[] toLayoutId = new int[] {android.R.id.text1, android.R.id.text2};
 
@@ -82,7 +88,7 @@ public class GameResultsActivity extends ActionBarActivity {
         l.add(items);
 
         list.setAdapter(new SimpleAdapter(this, l, android.R.layout.simple_list_item_2, fromMapKey, toLayoutId));
-
+        */
     }
 
 }

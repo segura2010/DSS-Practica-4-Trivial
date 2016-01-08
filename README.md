@@ -6,6 +6,8 @@
 
 La práctica consiste en realizar un juego de preguntas para Android.
 
+Los iconos se han obtenido de: http://www.flaticon.com/packs/football
+
 # Licencia
 
 Este software esta publicado bajo la licencia GNU GENERAL PUBLIC LICENSE Version 2.

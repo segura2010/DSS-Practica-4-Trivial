@@ -19,9 +19,9 @@
         </activity>
 
         <activity android:label="@string/app_name" android:name=".QuestionActivity"/>
-        <activity android:label="@string/stats_title" android:name=".StatsActivity"/>
+        <activity android:label="@string/stats_title" android:icon="@drawable/stats_icon" android:name=".StatsActivity"/>
         <activity android:label="@string/moregames_title" android:name=".MoreGamesActivity"/>
-        <activity android:label="@string/endgame_title" android:name=".GameResultsActivity"/>
+        <activity android:label="@string/endgame_title" android:name=".GameResultsActivity" android:icon="@drawable/finished_icon"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

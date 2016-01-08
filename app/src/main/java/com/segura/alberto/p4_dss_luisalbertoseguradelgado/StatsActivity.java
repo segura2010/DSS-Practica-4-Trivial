@@ -4,12 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by alberto on 1/1/16.
@@ -44,6 +38,14 @@ public class StatsActivity extends ActionBarActivity {
 
         User u = UserResource.INSTANCE.getUser();
 
+        String[] titles = {"Aciertos Totales", "Fallos Totales", "Partidas Completas Jugadas" };
+        String[] descs = { Integer.toString(u.getCorrectQuestions()), Integer.toString(u.getFailedQuestions()), Integer.toString(u.getTimesPlayed()) };
+
+        Integer[] images = { R.drawable.correct_icon, R.drawable.fails_icon, R.drawable.total_played_times_icon };
+
+        list.setAdapter(new MyImageListAdapter(this, titles, descs, images));
+
+        /*
         String[] fromMapKey = new String[] {"text1", "text2"};
         int[] toLayoutId = new int[] {android.R.id.text1, android.R.id.text2};
 
