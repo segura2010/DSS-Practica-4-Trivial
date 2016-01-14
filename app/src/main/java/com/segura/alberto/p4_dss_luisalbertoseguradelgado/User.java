@@ -10,6 +10,9 @@ public class User {
     int failedQuestions;
     int timesPlayed;
 
+    int actualGameCorrects;
+    int actualGameFails;
+
     User(int i, int c, int f, int t)
     {
         id = i;
@@ -21,6 +24,7 @@ public class User {
     public void addCorrect()
     {
         correctQuestions++;
+        actualGameCorrects++;
     }
     public int getCorrectQuestions() {
         return correctQuestions;
@@ -29,6 +33,7 @@ public class User {
     public void addFail()
     {
         failedQuestions++;
+        actualGameFails++;
     }
     public int getFailedQuestions() {
         return failedQuestions;
@@ -44,5 +49,19 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public int getActualGameCorrects() {
+        return actualGameCorrects;
+    }
+
+    public int getActualGameFails() {
+        return actualGameFails;
+    }
+
+    public void resetActualGame()
+    {
+        actualGameFails = 0;
+        actualGameCorrects = 0;
     }
 }

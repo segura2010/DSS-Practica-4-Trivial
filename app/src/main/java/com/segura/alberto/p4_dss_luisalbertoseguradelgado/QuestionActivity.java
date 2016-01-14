@@ -59,12 +59,20 @@ public class QuestionActivity extends ActionBarActivity {
             }
         });
 
-        corrects = 0; fails = 0;
-
-        QuestionResource.INSTANCE.shuffleQuestions();
 
         // Prepare first question
-        nextQuestion();
+        int lastQ = QuestionResource.INSTANCE.getLastQuestion();
+        if(lastQ < 0)
+        {   // First time
+            UserResource.INSTANCE.getUser().resetActualGame();
+            QuestionResource.INSTANCE.shuffleQuestions();
+            nextQuestion();
+        }
+        else
+        {
+            Question q = QuestionResource.INSTANCE.getActualQuestion();
+            showQuestion(q);
+        }
     }
 
     private void showQuestion(Question q)
@@ -146,8 +154,8 @@ public class QuestionActivity extends ActionBarActivity {
             UserResource.INSTANCE.saveUser();
 
             Intent i = new Intent(this, GameResultsActivity.class);
-            i.putExtra("corrects", corrects);
-            i.putExtra("fails", fails);
+            i.putExtra("corrects", UserResource.INSTANCE.getUser().getActualGameCorrects());
+            i.putExtra("fails", UserResource.INSTANCE.getUser().getActualGameFails());
             startActivity(i);
 
             finish();
@@ -176,14 +184,12 @@ public class QuestionActivity extends ActionBarActivity {
             AudioController.INSTANCE.playSong(this, R.raw.grito);
             Toast.makeText(getApplicationContext(), "Correct!!", Toast.LENGTH_SHORT).show();
             UserResource.INSTANCE.getUser().addCorrect();
-            corrects++;
             showCorrectQuestionAlert(correct);
         }
         else
         {
             AudioController.INSTANCE.playSong(this, R.raw.pitido);
             UserResource.INSTANCE.getUser().addFail();
-            fails++;
             showIncorrectQuestionAlert(correct);
         }
     }

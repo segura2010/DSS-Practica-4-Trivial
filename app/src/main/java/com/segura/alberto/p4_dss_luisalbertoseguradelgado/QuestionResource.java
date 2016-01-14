@@ -54,4 +54,7 @@ public enum QuestionResource {
         return questions.get(lastQuestion);
     }
 
+    public int getLastQuestion() {
+        return lastQuestion;
+    }
 }
