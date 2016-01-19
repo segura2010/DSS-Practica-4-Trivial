@@ -40,7 +40,7 @@ public class QuestionActivity extends ActionBarActivity {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                UserResource.INSTANCE.saveUser();
                                 QuestionResource.INSTANCE.getNewQuestions();
                                 finish();
                             }
@@ -182,7 +182,6 @@ public class QuestionActivity extends ActionBarActivity {
         if( q.getCorrectAnswer() == i )
         {   // it's correct!
             AudioController.INSTANCE.playSong(this, R.raw.grito);
-            Toast.makeText(getApplicationContext(), "Correct!!", Toast.LENGTH_SHORT).show();
             UserResource.INSTANCE.getUser().addCorrect();
             showCorrectQuestionAlert(correct);
         }
@@ -211,6 +210,7 @@ public class QuestionActivity extends ActionBarActivity {
                 .setNegativeButton("Volver al Menú", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        UserResource.INSTANCE.saveUser();
                         QuestionResource.INSTANCE.getNewQuestions();
                         finish();
                     }
@@ -235,6 +235,7 @@ public class QuestionActivity extends ActionBarActivity {
                 .setNegativeButton("Volver al Menú", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        UserResource.INSTANCE.saveUser();
                         QuestionResource.INSTANCE.getNewQuestions();
                         finish();
                     }

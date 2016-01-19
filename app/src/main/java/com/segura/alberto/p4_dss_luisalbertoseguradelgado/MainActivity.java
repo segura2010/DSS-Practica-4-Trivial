@@ -84,6 +84,7 @@ public class MainActivity extends ActionBarActivity {
                                 db.deleteTables();
                                 db.setUpTables();
                                 UserResource.INSTANCE.loadUser();
+                                QuestionResource.INSTANCE.getNewQuestions();
                             }
 
                         })

@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         // Create question table if not exists
-        db.execSQL("CREATE TABLE IF NOT EXISTS questions (id integer primary key, question text, a1 text, a2 text, a3 text, a4 text, correct integer, type integer)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS questions (id integer primary key, question text, a1 text, a2 text, a3 text, a4 text, correct integer, type integer, audio integer)");
         db.execSQL("CREATE TABLE IF NOT EXISTS users (id integer primary key, correctQuestions integer, failedQuestions integer, timesPlayed integer)");
 
     }
@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
         if( getUsersNumber() <= 0 )
         {
-            addUser( new User(0, 0, 0, 0) );
+            addUser(new User(0, 0, 0, 0));
         }
     }
 
@@ -80,9 +80,8 @@ public class DBHelper extends SQLiteOpenHelper{
 
     private void fillQuestions()
     {   // Add questions to DB
-
         // TEXT Questions
-        addQuestion( new Question( "¿Cuál es el país de origen del fútbol?", "España", "Inglaterra", "China", "Italia", 2, QuestionType.TEXT, 0 ) );
+        addQuestion(new Question("¿Cuál es el país de origen del fútbol?", "España", "Inglaterra", "China", "Italia", 2, QuestionType.TEXT, 0 ) );
         addQuestion( new Question( "¿Qué otro deporte usaba en sus inicios una pelota de fútbol?", "Tenis", "Balonmano", "Waterpolo", "Baloncesto", 3, QuestionType.TEXT, 0 ) );
         addQuestion( new Question( "¿Quién inventó la expresión 'jogo bonito'?", "Maradona", "Pelé", "Ronaldinho", "Ronaldo", 1, QuestionType.TEXT, 0 ) );
         addQuestion( new Question( "¿Dónde se fabrican la mayoría de balones de fútbol?", "China", "Pakistan", "India", "Tailandia", 1, QuestionType.TEXT, 0 ) );
